@@ -20,7 +20,6 @@ import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.Category;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.chtrembl.petstoreapp.service.SearchService;
-import com.chtrembl.petstoreapp.service.StorageService;
 
 import junit.framework.TestCase;
 
@@ -36,8 +35,6 @@ public class WebAppControllerTest extends TestCase{
 	@MockBean
 	private SearchService searchService;
 
-    @MockBean
-	private StorageService storageService;
 
 	@Test
 	public void testControllerGetRequest() throws Exception {
