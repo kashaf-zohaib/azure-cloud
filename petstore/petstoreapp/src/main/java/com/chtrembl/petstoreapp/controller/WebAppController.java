@@ -34,7 +34,6 @@ import com.chtrembl.petstoreapp.model.WebPages;
 import com.chtrembl.petstoreapp.repository.BreedRepository;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.chtrembl.petstoreapp.service.SearchService;
-import com.chtrembl.petstoreapp.service.StorageService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 
 /**
@@ -50,9 +49,6 @@ public class WebAppController {
 
 	@Autowired(required = false)
 	private SearchService searchService;
-
-	@Autowired(required = false)
-	private StorageService storageService;
 
 	@Autowired
 	private User sessionUser;
@@ -366,26 +362,5 @@ public class WebAppController {
 		return "audioSearch";
 	}
 
-	@PostMapping(value = "/audioAI")
-	public String audioAI(Model model, @RequestParam("audioFile") MultipartFile audioFile) {
-		logger.info("PetStoreApp /audioAI requested, routing to audioAI view...");
-		
-		if(this.audioAccessList == null || this.audioAccessList.isEmpty() || this.sessionUser== null || this.sessionUser.getEmail() == null || !this.audioAccessList.contains(this.sessionUser.getEmail())) {
-			logger.info("PetStoreApp /audioAI requested, access not allowed for user "+this.sessionUser.getEmail());
-			return "redirect:login";
-		}
-		
-		this.storageService.uploadFile(audioFile);
-
-		model.addAttribute("audioDataDocuments", this.searchService.audioSearch());
-		
-		//sleep for 5 seconds to allow for the audio file to be processed
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		return "redirect:audioAI";
-	}
+	
 }
